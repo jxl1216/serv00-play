@@ -1,5 +1,4 @@
 name: 批量保活进程
-
 on:
   schedule:
     # 使用cron表达式定义任务运行的时间
@@ -9,11 +8,10 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-24.04   # 固定ubuntu24，消除ubuntu-latest即将迁移提示
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # v4 替换v3，消除Node20弃用警告
 
       - name: 安装依赖
         run: |
@@ -39,7 +37,6 @@ jobs:
           PROXY_PORT: ${{secrets.PROXY_PORT}}
           PROXY_USER: ${{secrets.PROXY_USER}}
           PROXY_PASS: ${{secrets.PROXY_PASS}}
-
         run: |
           chmod +x ./revive.sh
           ./revive.sh
